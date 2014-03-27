@@ -1,0 +1,9 @@
+npm-debug.log
+node_modules
+docs
+livConfig.json
+.idea
+
+
+# don't ignore .npmignore files
+!.npmignore

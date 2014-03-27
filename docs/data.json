@@ -1,0 +1,471 @@
+{
+    "project": {
+        "name": "Liv API",
+        "description": "Liv API: A CLI tool for save and manage your global npm modules",
+        "version": "0.1.0",
+        "url": "https://github.com/chrisenytc/liv"
+    },
+    "files": {
+        "lib/helpers.js": {
+            "name": "lib/helpers.js",
+            "modules": {},
+            "classes": {
+                "Helpers": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/liv.js": {
+            "name": "lib/liv.js",
+            "modules": {},
+            "classes": {
+                "Liv": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "Helpers": {
+            "name": "Helpers",
+            "shortname": "Helpers",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib/helpers.js",
+            "line": 17
+        },
+        "Liv": {
+            "name": "Liv",
+            "shortname": "Liv",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib/liv.js",
+            "line": 53,
+            "is_constructor": 1,
+            "example": [
+                "\n\n    var api = new Liv('access_token');"
+            ],
+            "params": [
+                {
+                    "name": "access_token",
+                    "description": "Access Token",
+                    "type": "String"
+                }
+            ]
+        }
+    },
+    "classitems": [
+        {
+            "file": "lib/helpers.js",
+            "line": 29,
+            "description": "Method responsible for check if path exists",
+            "example": [
+                "\n\n    helpers.exists('./ully');"
+            ],
+            "itemtype": "method",
+            "name": "exists",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "File path of archive",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Returns true if file exists",
+                "type": "String"
+            },
+            "class": "Helpers"
+        },
+        {
+            "file": "lib/helpers.js",
+            "line": 46,
+            "description": "Method responsible for reading files and get content",
+            "example": [
+                "\n\n    helpers.read('./ully');"
+            ],
+            "itemtype": "method",
+            "name": "read",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "fillepath",
+                    "description": "File path of archive",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Returns file content",
+                "type": "String"
+            },
+            "class": "Helpers"
+        },
+        {
+            "file": "lib/helpers.js",
+            "line": 64,
+            "description": "Method responsible for writing files",
+            "example": [
+                "\n\n    helpers.write('./ully', 'string data');"
+            ],
+            "itemtype": "method",
+            "name": "write",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "fillepath",
+                    "description": "File path of archive",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "Data of file",
+                    "type": "String"
+                }
+            ],
+            "class": "Helpers"
+        },
+        {
+            "file": "lib/helpers.js",
+            "line": 82,
+            "description": "Method responsible for demove files",
+            "example": [
+                "\n\n    helpers.remove('./ully');"
+            ],
+            "itemtype": "method",
+            "name": "remove",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "File path of archive",
+                    "type": "String"
+                }
+            ],
+            "class": "Helpers"
+        },
+        {
+            "file": "lib/helpers.js",
+            "line": 98,
+            "description": "Method responsible for demove directories",
+            "example": [
+                "\n\n    helpers.rm('./ully');"
+            ],
+            "itemtype": "method",
+            "name": "rm",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "File path of directory",
+                    "type": "String"
+                }
+            ],
+            "class": "Helpers"
+        },
+        {
+            "file": "lib/helpers.js",
+            "line": 124,
+            "description": "Method responsible for check if path is a file",
+            "example": [
+                "\n\n    helpers.isFile('./ully');"
+            ],
+            "itemtype": "method",
+            "name": "isFile",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "File path of archive",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Returns true if path is file",
+                "type": "String"
+            },
+            "class": "Helpers"
+        },
+        {
+            "file": "lib/helpers.js",
+            "line": 142,
+            "description": "Method responsible for check if path is a directory",
+            "example": [
+                "\n\n    helpers.isDir('./ully');"
+            ],
+            "itemtype": "method",
+            "name": "isDir",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "File path of archive",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Returns true if path is directory",
+                "type": "String"
+            },
+            "class": "Helpers"
+        },
+        {
+            "file": "lib/liv.js",
+            "line": 113,
+            "description": "Method responsible for asking questions",
+            "example": [
+                "\n\n    api.prompt(prompts, cb);"
+            ],
+            "itemtype": "method",
+            "name": "prompt",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "prompts",
+                    "description": "Array of prompt options",
+                    "type": "Object"
+                },
+                {
+                    "name": "cb",
+                    "description": "A callback",
+                    "type": "Function"
+                }
+            ],
+            "class": "Liv"
+        },
+        {
+            "file": "lib/liv.js",
+            "line": 132,
+            "description": "Method responsible for create accounts",
+            "example": [
+                "\n\n    api.signup('name', 'email', 'password');"
+            ],
+            "itemtype": "method",
+            "name": "signup",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "Name",
+                    "type": "String"
+                },
+                {
+                    "name": "email",
+                    "description": "Email",
+                    "type": "String"
+                },
+                {
+                    "name": "password",
+                    "description": "Password",
+                    "type": "String"
+                }
+            ],
+            "class": "Liv"
+        },
+        {
+            "file": "lib/liv.js",
+            "line": 159,
+            "description": "Method responsible for login in accounts",
+            "example": [
+                "\n\n    api.login('email', 'username', 'password');"
+            ],
+            "itemtype": "method",
+            "name": "login",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "email",
+                    "description": "Email",
+                    "type": "String"
+                },
+                {
+                    "name": "password",
+                    "description": "Password",
+                    "type": "String"
+                }
+            ],
+            "class": "Liv"
+        },
+        {
+            "file": "lib/liv.js",
+            "line": 190,
+            "description": "Method responsible for reset passwords",
+            "example": [
+                "\n\n    api.forgot('email');"
+            ],
+            "itemtype": "method",
+            "name": "forgot",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "email",
+                    "description": "Email",
+                    "type": "String"
+                }
+            ],
+            "class": "Liv"
+        },
+        {
+            "file": "lib/liv.js",
+            "line": 213,
+            "description": "Method responsible for showing the status of api",
+            "example": [
+                "\n\n    api.status();"
+            ],
+            "itemtype": "method",
+            "name": "status",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "pureJson",
+                    "description": "If true show json raw",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "Liv"
+        },
+        {
+            "file": "lib/liv.js",
+            "line": 234,
+            "description": "Method responsible for showing profile info",
+            "example": [
+                "\n\n    api.me();"
+            ],
+            "itemtype": "method",
+            "name": "me",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "pureJson",
+                    "description": "If true show json raw",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "Liv"
+        },
+        {
+            "file": "lib/liv.js",
+            "line": 258,
+            "description": "Method responsible for update profile info",
+            "example": [
+                "\n\n    api.updateMe('name', email', 'password');"
+            ],
+            "itemtype": "method",
+            "name": "updateMe",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "Name",
+                    "type": "String"
+                },
+                {
+                    "name": "email",
+                    "description": "Email",
+                    "type": "String"
+                },
+                {
+                    "name": "password",
+                    "description": "Password",
+                    "type": "String"
+                }
+            ],
+            "class": "Liv"
+        },
+        {
+            "file": "lib/liv.js",
+            "line": 286,
+            "description": "Method responsible for delete profile info",
+            "example": [
+                "\n\n    api.deleteMe();"
+            ],
+            "itemtype": "method",
+            "name": "deleteMe",
+            "access": "public",
+            "tagname": "",
+            "class": "Liv"
+        },
+        {
+            "file": "lib/liv.js",
+            "line": 310,
+            "description": "Method responsible for list all modules",
+            "example": [
+                "\n\n    api.modules();"
+            ],
+            "itemtype": "method",
+            "name": "modules",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "pureJson",
+                    "description": "If true show json raw",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "Liv"
+        },
+        {
+            "file": "lib/liv.js",
+            "line": 335,
+            "description": "Method responsible for return a list of all modules",
+            "example": [
+                "\n\n    api.getModules();"
+            ],
+            "itemtype": "method",
+            "name": "getModules",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "cb",
+                    "description": "A callback",
+                    "type": "Function"
+                }
+            ],
+            "class": "Liv"
+        },
+        {
+            "file": "lib/liv.js",
+            "line": 362,
+            "description": "Method responsible for update modules",
+            "example": [
+                "\n\n    api.updateModules([{name: '', version: ''}]);"
+            ],
+            "itemtype": "method",
+            "name": "updateModules",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "modules",
+                    "description": "A array with modules",
+                    "type": "Array"
+                }
+            ],
+            "class": "Liv"
+        }
+    ],
+    "warnings": []
+}

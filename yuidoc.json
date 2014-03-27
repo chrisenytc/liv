@@ -1,0 +1,10 @@
+{
+    "name": "Liv API",
+    "description": "Liv API: A CLI tool for save and manage your global npm modules",
+    "version": "0.1.0",
+    "url": "https://github.com/chrisenytc/liv",
+    "options": {
+        "outdir": "./docs",
+        "paths": "./lib"
+    }
+}

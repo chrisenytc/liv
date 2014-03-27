@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>lib/liv.js - Liv API</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Liv API"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.1.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Helpers.html">Helpers</a></li>
+            
+                <li><a href="../classes/Liv.html">Liv</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: lib/liv.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*
+ * liv
+ * https://github.com/chrisenytc/liv
+ *
+ * Copyright (c) 2014 Christopher EnyTC
+ * Licensed under the MIT license.
+ */
+
+&#x27;use strict&#x27;;
+
+/*
+ * Module Dependencies
+ */
+
+var request = require(&#x27;superagent&#x27;);
+var inquirer = require(&#x27;inquirer&#x27;);
+var debug = require(&#x27;./debugger.js&#x27;);
+var async = require(&#x27;async&#x27;);
+var _ = require(&#x27;underscore&#x27;);
+var h = require(&#x27;./helpers.js&#x27;);
+var pj = require(&#x27;prettyjson&#x27;).render;
+var join = require(&#x27;path&#x27;).join;
+
+/*
+ * Private Methods
+ */
+
+function response(err, res, pureJson, message, type) {
+    if (err) {
+        throw err;
+    }
+    if (res) {
+        if (!pureJson) {
+            console.log(&#x27;\n[ &#x27; + &#x27;Response&#x27;.green.bold + &#x27; ] ==&gt; &#x27;);
+            console.log();
+            console.log(pj(res.body));
+        } else {
+            console.log(JSON.stringify(res.body, null, 4));
+        }
+    }
+    if (message &amp;&amp; type) {
+        debug(message, type);
+    }
+    if (message &amp;&amp; !type) {
+        debug(message);
+    }
+}
+
+/*
+ * Public Methods
+ */
+
+/**
+ * @class Liv
+ *
+ * @constructor
+ *
+ * Constructor responsible for provide api requests
+ *
+ * @example
+ *
+ *     var api = new Liv(&#x27;access_token&#x27;);
+ *
+ * @param {String} access_token Access Token
+ */
+
+var Liv = module.exports = function Liv(token) {
+    //Access Token
+    this.access_token = token;
+    //apiUri
+    this.uri = &#x27;https://livia.herokuapp.com&#x27;;
+    var apiUri = &#x27;https://livia.herokuapp.com/:path&#x27;;
+    //Get handler
+    this.get = function(path, cb) {
+        request
+            .get(apiUri.replace(new RegExp(&#x27;:path&#x27;, &#x27;g&#x27;), path).replace(new RegExp(&#x27;:token&#x27;, &#x27;g&#x27;), &#x27;access_token=&#x27; + this.access_token))
+            .set(&#x27;Accept&#x27;, &#x27;application/json&#x27;)
+            .end(cb);
+    };
+    //Post handler
+    this.post = function(path, body, cb) {
+        request
+            .post(apiUri.replace(new RegExp(&#x27;:path&#x27;, &#x27;g&#x27;), path).replace(new RegExp(&#x27;:token&#x27;, &#x27;g&#x27;), &#x27;access_token=&#x27; + this.access_token))
+            .send(body)
+            .set(&#x27;Accept&#x27;, &#x27;application/json&#x27;)
+            .end(cb);
+    };
+    //Put handler
+    this.put = function(path, body, cb) {
+        request
+            .put(apiUri.replace(new RegExp(&#x27;:path&#x27;, &#x27;g&#x27;), path).replace(new RegExp(&#x27;:token&#x27;, &#x27;g&#x27;), &#x27;access_token=&#x27; + this.access_token))
+            .send(body)
+            .set(&#x27;Accept&#x27;, &#x27;application/json&#x27;)
+            .end(cb);
+    };
+    //Delete handler
+    this.delete = function(path, body, cb) {
+        request
+            .del(apiUri.replace(new RegExp(&#x27;:path&#x27;, &#x27;g&#x27;), path).replace(new RegExp(&#x27;:token&#x27;, &#x27;g&#x27;), &#x27;access_token=&#x27; + this.access_token))
+            .send(body)
+            .set(&#x27;Accept&#x27;, &#x27;application/json&#x27;)
+            .end(cb);
+    };
+};
+
+//HandlerExceptions
+process.on(&#x27;uncaughtException&#x27;, function(err) {
+    console.log();
+    console.error(err.stack);
+    console.error(err);
+});
+
+/**
+ * Method responsible for asking questions
+ *
+ * @example
+ *
+ *     api.prompt(prompts, cb);
+ *
+ * @method prompt
+ * @public
+ * @param {Object} prompts Array of prompt options
+ * @param {Function} cb A callback
+ */
+
+Liv.prototype.prompt = function prompt(prompts, cb) {
+    inquirer.prompt(prompts, function(answers) {
+        cb(answers);
+    });
+};
+
+/**
+ * Method responsible for create accounts
+ *
+ * @example
+ *
+ *     api.signup(&#x27;name&#x27;, &#x27;email&#x27;, &#x27;password&#x27;);
+ *
+ * @method signup
+ * @public
+ * @param {String} name Name
+ * @param {String} email Email
+ * @param {String} password Password
+ */
+
+Liv.prototype.signup = function signup(name, email, password) {
+    this.post(&#x27;signup&#x27;, {
+        name: name,
+        email: email,
+        password: password
+    }, function(err, res) {
+        if (err) {
+            response(err);
+        }
+        response(null, res);
+    });
+};
+
+/**
+ * Method responsible for login in accounts
+ *
+ * @example
+ *
+ *     api.login(&#x27;email&#x27;, &#x27;username&#x27;, &#x27;password&#x27;);
+ *
+ * @method login
+ * @public
+ * @param {String} email Email
+ * @param {String} password Password
+ */
+
+Liv.prototype.login = function login(email, password) {
+    this.post(&#x27;signin&#x27;, {
+        email: email,
+        password: password
+    }, function(err, res) {
+        if (err) {
+            response(err);
+        }
+        //Write config
+        if (res.body.token &amp;&amp; res.body.roles) {
+            h.write(join(__dirname, &#x27;livConfig.json&#x27;), JSON.stringify(res.body, null, 4));
+            response(null, null, null, &#x27;Logged successfully!&#x27;, &#x27;success&#x27;);
+        } else {
+            response(null, null, null, &#x27;Login failed. Try again!&#x27;, &#x27;error&#x27;);
+        }
+    });
+};
+
+/**
+ * Method responsible for reset passwords
+ *
+ * @example
+ *
+ *     api.forgot(&#x27;email&#x27;);
+ *
+ * @method forgot
+ * @public
+ * @param {String} email Email
+ */
+
+Liv.prototype.forgot = function forgot(email) {
+    this.post(&#x27;forgot&#x27;, {
+        email: email
+    }, function(err, res) {
+        if (err) {
+            response(err);
+        }
+        response(null, res);
+    });
+};
+
+/**
+ * Method responsible for showing the status of api
+ *
+ * @example
+ *
+ *     api.status();
+ *
+ * @method status
+ * @public
+ * @param {Boolean} pureJson If true show json raw
+ */
+
+Liv.prototype.status = function status(pureJson) {
+    this.get(&#x27;status&#x27;, function(err, res) {
+        if (err) {
+            response(err);
+        }
+        response(null, res, pureJson);
+    });
+};
+
+/**
+ * Method responsible for showing profile info
+ *
+ * @example
+ *
+ *     api.me();
+ *
+ * @method me
+ * @public
+ * @param {Boolean} pureJson If true show json raw
+ */
+
+Liv.prototype.me = function me(pureJson) {
+    this.get(&#x27;me?:token&#x27;, function(err, res) {
+        if (err) {
+            response(err);
+        }
+        var obj = {
+            body: _.pick(res.body, [&#x27;name&#x27;, &#x27;email&#x27;, &#x27;status&#x27;])
+        }
+        response(null, obj, pureJson);
+    });
+};
+
+/**
+ * Method responsible for update profile info
+ *
+ * @example
+ *
+ *     api.updateMe(&#x27;name&#x27;, email&#x27;, &#x27;password&#x27;);
+ *
+ * @method updateMe
+ * @public
+ * @param {String} name Name
+ * @param {String} email Email
+ * @param {String} password Password
+ */
+
+Liv.prototype.updateMe = function updateMe(name, email, password) {
+    var meObj = {
+        name: name,
+        email: email,
+        password: password
+    };
+    this.put(&#x27;me?:token&#x27;, meObj, function(err, res) {
+        if (err) {
+            response(err);
+        }
+        response(null, null, null, res.body.message);
+    });
+};
+
+/**
+ * Method responsible for delete profile info
+ *
+ * @example
+ *
+ *     api.deleteMe();
+ *
+ * @method deleteMe
+ * @public
+ */
+
+Liv.prototype.deleteMe = function deleteMe() {
+
+    this.delete(&#x27;me?:token&#x27;, null, function(err, res) {
+        if (err) {
+            response(err);
+        }
+        if (h.exists(__dirname + &#x27;/livConfig.json&#x27;)) {
+            h.remove(__dirname + &#x27;/livConfig.json&#x27;);
+        }
+        response(null, null, null, res.body.message);
+    });
+};
+
+/**
+ * Method responsible for list all modules
+ *
+ * @example
+ *
+ *     api.modules();
+ *
+ * @method modules
+ * @public
+ * @param {Boolean} pureJson If true show json raw
+ */
+
+Liv.prototype.modules = function modules(pureJson) {
+    this.get(&#x27;modules?:token&#x27;, function(err, res) {
+        if (err) {
+            response(err);
+        }
+        if (res.body.length &lt; 1) {
+            console.log(&#x27;  You don\&#x27;t have modules. \n  Upload your modules.\n&#x27; + &#x27;\n  $ liv save&#x27;.bold.white);
+            process.exit();
+        }
+        response(null, res, pureJson);
+    });
+};
+
+/**
+ * Method responsible for return a list of all modules
+ *
+ * @example
+ *
+ *     api.getModules();
+ *
+ * @method getModules
+ * @public
+ * @param {Function} cb A callback
+ */
+
+Liv.prototype.getModules = function getModules(cb) {
+    this.get(&#x27;modules?:token&#x27;, function(err, res) {
+        if (err) {
+            response(err);
+        }
+        var modulesList = {};
+        modulesList.modules = [];
+        _.each(res.body.modules, function(val, key) {
+            modulesList.modules.push(val.name + &#x27;@&#x27; + val.version);
+        });
+        modulesList.all = modulesList.modules.join(&#x27; &#x27;);
+        cb(modulesList);
+    });
+};
+
+/**
+ * Method responsible for update modules
+ *
+ * @example
+ *
+ *     api.updateModules([{name: &#x27;&#x27;, version: &#x27;&#x27;}]);
+ *
+ * @method updateModules
+ * @public
+ * @param {Array} modules A array with modules
+ */
+
+Liv.prototype.updateModules = function updateModules(modules) {
+    var modulesObj = {
+        modules: modules
+    };
+    this.put(&#x27;modules?:token&#x27;, modulesObj, function(err, res) {
+        if (err) {
+            response(err);
+        }
+        response(null, res);
+    });
+};
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
